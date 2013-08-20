@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Twitter</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<div class="container">
+  <p class="notice"><%= notice %></p>
+  <p class="alert"><%= alert %></p>
+  <div style="float:right;">  
+  <p>
+    <%= link_to ("Logged In User:"+ current_user.name), user_path(current_user) unless current_user.blank? %></p>
+    <p><%= link_to('Logout', destroy_user_session_path, :method => 'delete') unless current_user.blank? %></p>
+  </div>
+  <div class="row">
+    <div class="span9"><%= yield %></div>
+    <div class="span3">
+      <h2>About Us</h2>
+      <p>This is an twitter like application, Where people can tweet and re-tweet.
+         The size of a tweet is 160 characters.</p>        
+    </div>
+  </div>
+</div>
+</body>
+</html>

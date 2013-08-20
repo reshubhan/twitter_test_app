@@ -1,0 +1,73 @@
+<%- model_class = Tweet -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<% unless @tweets.blank?%>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:user_name) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tweets.each do |tweet| %>
+      <tr>
+        <td><%= link_to tweet.user.name, user_path(current_user) %></td>
+        <td><%= truncate(tweet.description, :lenght => 20, :omission => "...(continued).") %></td>
+        <td><%= tweet.created_at.to_date %></td>
+        <td>
+          <%= link_to t("show"),
+                      tweet_path(tweet), :class => 'btn btn-mini' %>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_tweet_path(tweet), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      tweet_path(tweet),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%else%>
+<p>There are not tweets so far by you.Click to tweet <%= link_to t('Tweet'),
+              new_tweet_path, :class => 'btn' %></p>
+<%end%>
+
+
+<%- model_class = Tweet -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => "ReTweets" %></h1>
+</div>
+<%unless @retweets.blank?%>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:user_name) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @retweets.each do |tweet| %>
+      <tr>
+        <td><%= link_to tweet.user.name, user_path(current_user) %></td>
+        <td><%= truncate(tweet.description, :lenght => 20, :omission => "...(continued).") %></td>
+        <td><%= tweet.created_at.to_date %></td>
+        <td>
+          <%= link_to t("show"),
+                      tweet_path(tweet), :class => 'btn btn-mini' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%else%>
+<p>You have not re-tweeted any ones tweets. To re-tweet click <%= link_to t('All Tweets'),
+              tweets_path, :class => 'btn' %></p>
+<%end%>
